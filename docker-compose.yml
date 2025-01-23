@@ -11,6 +11,8 @@ services:
       - "traefik.http.routers.wrlc_fastapi_webhook.tls=true"
       - "traefik.http.routers.wrlc_fastapi_webhook.entrypoints=websecure"
     environment:
+      USERNAME: user
+      PASSWORD: password
       SMTP_SERVER: "localhost"
       SMTP_PORT: "8025"
       SMTP_SSL: "False"
