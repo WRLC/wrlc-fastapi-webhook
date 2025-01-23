@@ -10,7 +10,7 @@ from pydantic import BaseModel
 load_dotenv()
 
 
-class Email(BaseModel):
+class Message(BaseModel):
     """
     Email object
     """
@@ -18,9 +18,9 @@ class Email(BaseModel):
     body: str
     to: str
     sender: str
-    smtp: str = os.getenv('SMTP_SERVER')
-    port: int = os.getenv('SMTP_PORT')
-    ssl: bool = os.getenv('SMTP_SSL')
+    smtp: str | None = os.getenv('SMTP_SERVER')
+    port: str | None = os.getenv('SMTP_PORT')
+    ssl: str | None = os.getenv('SMTP_SSL')
 
     def construct_email(self) -> MIMEMultipart:
         """

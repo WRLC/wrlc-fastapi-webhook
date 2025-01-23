@@ -4,8 +4,7 @@ type hints.
 """
 from fastapi import FastAPI
 from starlette.responses import JSONResponse
-
-from Models.Email import Email
+from models.message import Message
 app = FastAPI()
 
 
@@ -27,21 +26,21 @@ async def root() -> JSONResponse:
 
 
 @app.post("/email")
-async def send_email(email: Email) -> JSONResponse:
+async def send_email(message: Message) -> JSONResponse:
     """
     Send email endpoint
 
-    :param email: Email
+    :param message: Message
     :return:
     """
-    msg = email.construct_email()
-    email.send(msg)
+    msg = message.construct_email()
 
     return JSONResponse(
         content={
             "status": "success",
             "data": {
                 "message": "Email sent successfully",
+                "subject": msg,
             }
         }
     )
