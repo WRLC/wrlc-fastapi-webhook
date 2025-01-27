@@ -1,0 +1,18 @@
+[Unit]
+Description=FastAPI webhook listener for WRLC
+After=network.target
+
+[Service]
+User=wrlcfastapiwebhook
+Group=www-data
+WorkingDirectory=/path/to/wrlc-fastapi-webhook
+Environment="PATH=/path/to/venv/bin"
+# Env Vars
+Environment="USERNAME="
+Environment="PASSWORD="
+Environment="SMTP_SERVER="
+Environment="SMTP_SSL="
+ExecStart=/path/to/venv/bin/gunicorn --workers 3 --bind unix:wrlcfastapiwebhook.sock -m 007 --error-logfile /path/to/wrlc-fastapi-webhook/var/log/gunicorn.log --log-level 'warn' wsgi:app
+
+[Install]
+WantedBy=multi-user.target
