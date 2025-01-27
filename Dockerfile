@@ -11,7 +11,7 @@ RUN mkdir /app
 COPY pyproject.toml poetry.lock /app/
 WORKDIR /app
 
-RUN poetry lock --no-update && poetry install --no-root
+RUN poetry install
 
 EXPOSE 8000
 
