@@ -91,7 +91,7 @@ async def send_email(message: Message, username: Annotated[str, Depends(authenti
         logging.error("Error: %s", e)
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error sending email",
+            detail="Error sending email: %s" % str(e),  # Error message
         ) from e
 
     return Response(status="success", data={"message": f"Email sent to {message.to}"})
