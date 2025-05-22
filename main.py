@@ -131,5 +131,7 @@ async def alma_item(request: Request) -> fastapi.Response:
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Item not provided",
         )
-    print(request.json())
+    with open("data.json", "w") as file:
+        file.write(await request.json())
+    logging.info("Item: %s", await request.json())
     return fastapi.Response()
