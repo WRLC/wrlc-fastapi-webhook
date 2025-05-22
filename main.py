@@ -131,5 +131,5 @@ async def alma_item(request: Request) -> fastapi.Response:
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Item not provided",
         )
-    logging.warning("Item: %s", request.json())
+    print(request.json())
     return fastapi.Response()
