@@ -9,7 +9,7 @@ import secrets
 from typing import Annotated
 
 import fastapi
-from fastapi import FastAPI, status, Depends, HTTPException
+from fastapi import FastAPI, status, Depends, HTTPException, Request
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from models.message import Message
 from models.reponse import Response
@@ -119,18 +119,18 @@ async def alma_challenge(challenge: str) -> Response:
 
 
 @app.post("/alma", status_code=status.HTTP_200_OK)
-async def alma_item(item: str) -> fastapi.Response:
+async def alma_item(request: Request) -> fastapi.Response:
     """
     Alma item endpoint
 
-    :param item: dict
+    :param request: Request
     :return:
     """
-    if not item:
+    if not request:
         logging.error("Error: Item not provided")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Item not provided",
         )
-    logging.info("Item: %s", json.dumps(item))
+    logging.info("Item: %s", request.json())
     return fastapi.Response()
