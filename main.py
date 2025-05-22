@@ -2,10 +2,13 @@
 FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python
 type hints.
 """
+import json
 import logging
 import os
 import secrets
 from typing import Annotated
+
+import fastapi
 from fastapi import FastAPI, status, Depends, HTTPException
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from models.message import Message
@@ -95,3 +98,36 @@ async def send_email(message: Message, username: Annotated[str, Depends(authenti
         ) from e
 
     return Response(status="success", data={"message": f"Email sent to {message.to}"})
+
+
+@app.get("/alma", status_code=status.HTTP_200_OK, response_model=Response)
+async def alma_challenge(challenge: str) -> Response:
+    """
+    Alma challenge endpoint
+
+    :param challenge: str
+    :return:
+    """
+    if not challenge:
+        logging.error("Error: Challenge not provided")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Challenge not provided",
+        )
+    logging.info("Challenge: %s", challenge)
+    return Response(status="success", data={"challenge": challenge})
+
+
+@app.post("/alma", status_code=status.HTTP_200_OK)
+async def alma_item(item: json) -> fastapi.Response:
+    """
+    Alma item endpoint
+
+    :param item: dict
+    :return:
+    """
+    if not item:
+        logging.error("Error: Item not provided")
+        raise HTTPException
+    logging.info("Item: %s", item)
+    return fastapi.Response()
