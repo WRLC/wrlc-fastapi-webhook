@@ -119,7 +119,7 @@ async def alma_challenge(challenge: str) -> Response:
 
 
 @app.post("/alma", status_code=status.HTTP_200_OK)
-async def alma_item(item: json) -> fastapi.Response:
+async def alma_item(item: str) -> fastapi.Response:
     """
     Alma item endpoint
 
@@ -129,5 +129,5 @@ async def alma_item(item: json) -> fastapi.Response:
     if not item:
         logging.error("Error: Item not provided")
         raise HTTPException
-    logging.info("Item: %s", item)
+    logging.info("Item: %s", json.dumps(item))
     return fastapi.Response()
