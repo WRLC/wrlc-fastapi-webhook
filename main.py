@@ -2,6 +2,7 @@
 FastAPI is a modern, fast (high-performance), web framework for building APIs with Python 3.6+ based on standard Python
 type hints.
 """
+import json
 import logging
 import os
 import secrets
@@ -131,7 +132,10 @@ async def alma_item(request: Request) -> fastapi.Response:
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Item not provided",
         )
-    with open("data.json", "w") as file:
-        file.write(await request.json())
-    logging.info("Item: %s", await request.json())
+    with open("loads.json", "w") as file:
+        file.write(json.loads(await request.body()))
+        logging.info("Item: %s", json.loads(await request.body()))
+    with open("dumps.json", "w") as file:
+        file.write(json.dumps(await request.body()))
+        logging.info("Item: %s", json.dumps(await request.body()))
     return fastapi.Response()
